@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Material Requisition Form — Jainco Buildcon Pvt Ltd</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #0f1117;
+  --bg2: #161a24;
+  --bg3: #1e2436;
+  --surface: #232940;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --amber: #f59e0b;
+  --amber2: #fbbf24;
+  --amber-dim: rgba(245,158,11,0.12);
+  --green: #10b981;
+  --green-dim: rgba(16,185,129,0.12);
+  --red: #ef4444;
+  --red-dim: rgba(239,68,68,0.12);
+  --blue: #3b82f6;
+  --blue-dim: rgba(59,130,246,0.12);
+  --text: #f1f5f9;
+  --text2: #94a3b8;
+  --text3: #64748b;
+  --radius: 12px;
+  --radius-lg: 18px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+.light-mode {
+  --bg: #f0f2f8;
+  --bg2: #e8ebf4;
+  --bg3: #dde1ef;
+  --surface: #ffffff;
+  --border: rgba(0,0,0,0.07);
+  --border2: rgba(0,0,0,0.12);
+  --amber-dim: rgba(245,158,11,0.1);
+  --green-dim: rgba(16,185,129,0.1);
+  --red-dim: rgba(239,68,68,0.1);
+  --blue-dim: rgba(59,130,246,0.1);
+  --text: #0f1117;
+  --text2: #475569;
+  --text3: #94a3b8;
+  --shadow: 0 4px 24px rgba(0,0,0,0.1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background .3s,color .3s}
+
+/* NOISE TEXTURE OVERLAY */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.5}
+
+/* HEADER */
+.topbar{position:sticky;top:0;z-index:100;background:var(--bg2);border-bottom:1px solid var(--border2);backdrop-filter:blur(12px);padding:0 24px}
+.topbar-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-icon{width:38px;height:38px;background:var(--amber);border-radius:10px;display:flex;align-items:center;justify-content:center}
+.brand-icon svg{width:22px;height:22px;fill:#000}
+.brand-name{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;letter-spacing:.5px;color:var(--text)}
+.brand-name span{color:var(--amber)}
+.topbar-right{display:flex;align-items:center;gap:12px}
+.req-badge{background:var(--amber-dim);border:1px solid var(--amber);color:var(--amber);font-size:12px;font-weight:600;padding:4px 12px;border-radius:20px;letter-spacing:.5px;font-family:'Barlow Condensed',sans-serif}
+.theme-btn{width:36px;height:36px;border-radius:50%;border:1px solid var(--border2);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s;color:var(--text2)}
+.theme-btn:hover{background:var(--bg3);color:var(--amber)}
+.theme-btn svg{width:16px;height:16px}
+
+/* HERO STRIP */
+.hero{background:linear-gradient(135deg,#f59e0b 0%,#d97706 50%,#b45309 100%);padding:28px 24px;position:relative;overflow:hidden}
+.hero::after{content:'MRF';position:absolute;right:-10px;top:50%;transform:translateY(-50%);font-family:'Barlow Condensed',sans-serif;font-size:120px;font-weight:800;color:rgba(0,0,0,0.1);line-height:1;pointer-events:none}
+.hero-inner{max-width:1100px;margin:0 auto;position:relative;z-index:1}
+.hero h1{font-family:'Barlow Condensed',sans-serif;font-size:clamp(28px,5vw,42px);font-weight:800;color:#000;line-height:1.1;text-transform:uppercase;letter-spacing:1px}
+.hero p{color:rgba(0,0,0,0.65);font-size:14px;margin-top:6px;font-weight:500}
+.hero-meta{display:flex;gap:16px;margin-top:16px;flex-wrap:wrap}
+.hero-chip{background:rgba(0,0,0,0.15);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;color:#000;display:flex;align-items:center;gap:6px}
+.hero-chip svg{width:13px;height:13px}
+
+/* MAIN LAYOUT */
+.main{max-width:1100px;margin:0 auto;padding:32px 24px;position:relative;z-index:1}
+
+/* SECTION CARDS */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;margin-bottom:20px;box-shadow:var(--shadow);transition:background .3s}
+.card-header{display:flex;align-items:center;gap:12px;margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.card-num{width:32px;height:32px;border-radius:8px;background:var(--amber);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:#000;flex-shrink:0}
+.card-title{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;color:var(--text)}
+.card-subtitle{font-size:12px;color:var(--text3);font-weight:400;margin-top:2px}
+
+/* GRID */
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:640px){.grid-2,.grid-3{grid-template-columns:1fr}}
+@media(min-width:641px) and (max-width:900px){.grid-3{grid-template-columns:repeat(2,1fr)}}
+
+/* FORM ELEMENTS */
+.field{display:flex;flex-direction:column;gap:7px}
+label{font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.7px}
+label .req{color:var(--amber);margin-left:2px}
+select,input[type=text],input[type=number],input[type=email],input[type=date]{
+  height:44px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius);
+  color:var(--text);font-size:14px;font-family:'DM Sans',sans-serif;
+  padding:0 14px;outline:none;transition:.2s;width:100%;-webkit-appearance:none;appearance:none
+}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%2394a3b8' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;background-size:16px;padding-right:36px}
+select:focus,input:focus{border-color:var(--amber);box-shadow:0 0 0 3px rgba(245,158,11,.15)}
+select:hover,input:hover{border-color:var(--border2)}
+select option{background:var(--surface);color:var(--text)}
+::placeholder{color:var(--text3)}
+
+/* STOCK INDICATOR */
+.stock-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+.stock-pill{background:var(--bg3);border-radius:10px;padding:10px 14px;border:1px solid var(--border)}
+.stock-pill.good{background:var(--green-dim);border-color:rgba(16,185,129,0.3)}
+.stock-pill.warn{background:var(--red-dim);border-color:rgba(239,68,68,0.3)}
+.stock-pill .sp-label{font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.stock-pill .sp-val{font-size:18px;font-weight:700;font-family:'Barlow Condensed',sans-serif;color:var(--text);margin-top:2px}
+.stock-pill.good .sp-val{color:var(--green)}
+.stock-pill.warn .sp-val{color:var(--red)}
+
+/* ITEMS TABLE */
+.items-header{display:grid;grid-template-columns:2fr 1.2fr 1.2fr 1.2fr 44px;gap:10px;padding:0 8px 10px;border-bottom:1px solid var(--border)}
+.items-header span{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.6px}
+.item-row{display:grid;grid-template-columns:2fr 1.2fr 1.2fr 1.2fr 44px;gap:10px;align-items:start;padding:12px 8px;border-bottom:1px solid var(--border);animation:rowIn .3s ease}
+@keyframes rowIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+@media(max-width:700px){
+  .items-header{display:none}
+  .item-row{grid-template-columns:1fr 1fr;grid-template-rows:auto auto auto}
+  .item-row>*:first-child{grid-column:1/-1}
+  .item-row>.del-btn{grid-column:2;grid-row:2}
+}
+.stock-badge{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:4px 10px;border-radius:20px;margin-top:4px}
+.stock-badge.ok{background:var(--green-dim);color:var(--green)}
+.stock-badge.low{background:var(--red-dim);color:var(--red)}
+.stock-badge.pending{background:var(--blue-dim);color:var(--blue)}
+.stock-badge svg{width:11px;height:11px}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:0 20px;height:44px;border-radius:var(--radius);font-size:14px;font-weight:600;cursor:pointer;transition:.2s;border:none;font-family:'DM Sans',sans-serif;white-space:nowrap}
+.btn:active{transform:scale(.98)}
+.btn-amber{background:var(--amber);color:#000}
+.btn-amber:hover{background:var(--amber2)}
+.btn-outline{background:transparent;border:1px solid var(--border2);color:var(--text2)}
+.btn-outline:hover{border-color:var(--amber);color:var(--amber);background:var(--amber-dim)}
+.btn-ghost{background:transparent;color:var(--text3);padding:0 12px}
+.btn-ghost:hover{color:var(--red);background:var(--red-dim)}
+.btn-green{background:var(--green);color:#fff}
+.btn-green:hover{filter:brightness(1.1)}
+.btn-sm{height:36px;padding:0 14px;font-size:13px}
+.del-btn{width:36px;height:36px;padding:0;border-radius:9px;background:var(--bg3);border:1px solid var(--border);color:var(--text3);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s}
+.del-btn:hover{background:var(--red-dim);border-color:rgba(239,68,68,0.4);color:var(--red)}
+.del-btn svg{width:16px;height:16px}
+.add-item-bar{display:flex;justify-content:space-between;align-items:center;padding:14px 8px 0;flex-wrap:wrap;gap:10px}
+
+/* FILE UPLOAD */
+.file-zone{border:2px dashed var(--border2);border-radius:var(--radius-lg);padding:28px 20px;text-align:center;cursor:pointer;transition:.2s;position:relative;overflow:hidden}
+.file-zone:hover{border-color:var(--amber);background:var(--amber-dim)}
+.file-zone.drag{border-color:var(--amber);background:var(--amber-dim);transform:scale(1.01)}
+.file-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.file-icon{width:48px;height:48px;margin:0 auto 12px;background:var(--bg3);border-radius:12px;display:flex;align-items:center;justify-content:center}
+.file-icon svg{width:24px;height:24px;color:var(--amber)}
+.file-zone h4{font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px}
+.file-zone p{font-size:12px;color:var(--text3)}
+.file-preview{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.file-chip{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:5px 12px;font-size:12px;color:var(--text2);display:flex;align-items:center;gap:6px}
+.file-chip .rm{cursor:pointer;color:var(--text3);transition:.2s}
+.file-chip .rm:hover{color:var(--red)}
+
+/* SUBMIT SECTION */
+.submit-section{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid var(--border2);border-radius:var(--radius-lg);padding:28px 24px;text-align:center;margin-bottom:32px}
+.submit-section h3{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+.submit-section p{color:var(--text2);font-size:13px;margin-bottom:20px}
+.submit-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-submit{height:52px;padding:0 40px;font-size:16px;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:1px;text-transform:uppercase;background:var(--amber);color:#000;border:none;border-radius:var(--radius);cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:10px}
+.btn-submit:hover{background:var(--amber2);transform:translateY(-1px);box-shadow:0 8px 20px rgba(245,158,11,.4)}
+.btn-submit:active{transform:scale(.98)}
+.btn-submit:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+/* LOADING OVERLAY */
+.loader{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:999;display:none;align-items:center;justify-content:center;flex-direction:column;gap:16px;backdrop-filter:blur(4px)}
+.loader.show{display:flex}
+.spinner{width:48px;height:48px;border:3px solid rgba(245,158,11,.3);border-top-color:var(--amber);border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loader p{color:var(--text);font-size:14px;font-weight:500}
+
+/* TOAST */
+.toasts{position:fixed;top:80px;right:20px;z-index:1000;display:flex;flex-direction:column;gap:8px;pointer-events:none;max-width:340px}
+.toast{background:var(--surface);border-radius:var(--radius);padding:14px 16px;font-size:14px;font-weight:500;display:flex;align-items:flex-start;gap:12px;box-shadow:0 8px 32px rgba(0,0,0,.4);pointer-events:all;border:1px solid var(--border);animation:toastIn .35s cubic-bezier(.34,1.56,.64,1);transform-origin:right center}
+@keyframes toastIn{from{opacity:0;transform:translateX(40px) scale(.9)}to{opacity:1;transform:none}}
+.toast.out{animation:toastOut .25s ease forwards}
+@keyframes toastOut{to{opacity:0;transform:translateX(40px) scale(.9)}}
+.toast-icon{width:20px;height:20px;flex-shrink:0;margin-top:1px}
+.toast.success .toast-icon{color:var(--green)}
+.toast.error .toast-icon{color:var(--red)}
+.toast.info .toast-icon{color:var(--blue)}
+.toast.warning .toast-icon{color:var(--amber)}
+.toast-text .tt{font-weight:600;color:var(--text);font-size:13px}
+.toast-text .tm{color:var(--text2);font-size:12px;margin-top:2px}
+
+/* DEMO MODE BANNER */
+.demo-banner{background:linear-gradient(90deg,rgba(59,130,246,.15),rgba(59,130,246,.08));border:1px solid rgba(59,130,246,.3);border-radius:var(--radius);padding:12px 18px;display:flex;align-items:center;gap:12px;margin-bottom:20px;font-size:13px;color:var(--blue)}
+.demo-banner svg{width:18px;height:18px;flex-shrink:0}
+.demo-banner strong{font-weight:600}
+
+/* SUMMARY PILL */
+.items-summary{display:flex;gap:12px;flex-wrap:wrap;padding:14px 8px 0}
+.summary-chip{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:5px 12px;font-size:12px;font-weight:600;color:var(--text2)}
+.summary-chip span{color:var(--amber);margin-left:4px}
+
+/* SUCCESS SCREEN */
+.success-screen{display:none;text-align:center;padding:60px 24px}
+.success-screen.show{display:block}
+.success-check{width:80px;height:80px;background:var(--green-dim);border-radius:50%;margin:0 auto 24px;display:flex;align-items:center;justify-content:center;border:2px solid var(--green)}
+.success-check svg{width:40px;height:40px;color:var(--green)}
+.success-screen h2{font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:800;text-transform:uppercase;margin-bottom:8px}
+.success-screen p{color:var(--text2);font-size:14px;line-height:1.6}
+.req-id-box{background:var(--amber-dim);border:1px solid var(--amber);border-radius:10px;display:inline-block;padding:10px 24px;margin:20px auto;font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:var(--amber);letter-spacing:1px}
+
+/* MISC */
+.sep{height:1px;background:var(--border);margin:4px 0}
+.text-amber{color:var(--amber)}
+.text-green{color:var(--green)}
+.text-red{color:var(--red)}
+.fw6{font-weight:600}
+.hint{font-size:11px;color:var(--text3);margin-top:4px}
+</style>
+</head>
+<body>
+
+<!-- LOADING OVERLAY -->
+<div class="loader" id="loader">
+  <div class="spinner"></div>
+  <p id="loader-msg">Loading data...</p>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toasts" id="toasts"></div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M2 20h20v2H2v-2zm2-8h2v7H4v-7zm5 0h2v7H9v-7zm4 0h2v7h-2v-7zm5 0h2v7h-2v-7zM2 7l10-5 10 5v4H2V7zm2 1.236V9h16v-.764l-8-4-8 4z"/></svg>
+      </div>
+      <div>
+        <div class="brand-name"><span>Jainco Buildcon Pvt. Ltd.</span></div>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="req-badge" id="req-id-badge">MRF-LOADING</div>
+      <button class="theme-btn" id="theme-toggle" title="Toggle theme">
+        <svg viewBox="0 0 24 24" fill="currentColor" id="theme-icon">
+          <path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <h1>Request for Material</h1>
+    <p>Submit material requisition · Track stock · Notify stakeholders</p>
+    <div class="hero-meta">
+      <div class="hero-chip">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+        Live Stock Check
+      </div>
+      <div class="hero-chip">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        Auto Email Alerts
+      </div>
+      <div class="hero-chip">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Google Sheets Backend
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main" id="form-wrapper">
+
+  <!-- DEMO BANNER -->
+  <div class="demo-banner" id="demo-banner" style="display:none">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 9h-2V7h2m0 10h-2v-6h2m-1-9A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2z"/></svg>
+    <div><strong>Demo Mode</strong> — Google Sheet unreachable. Using sample data. Deploy Apps Script and update <code>APPS_SCRIPT_URL</code> to go live.</div>
+  </div>
+
+  <!-- SECTION 1: CONTRACTOR & SITE -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-num">1</div>
+      <div>
+        <div class="card-title">Contractor & Site Details</div>
+        <div class="card-subtitle">Select contractor and site for this requisition</div>
+      </div>
+    </div>
+    <div class="grid-3">
+      <div class="field">
+        <label>Contractor Name <span class="req">*</span></label>
+        <select id="contractor" onchange="onContractorChange()">
+          <option value="">— Select Contractor —</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Site Name <span class="req">*</span></label>
+        <select id="site" onchange="onSiteChange()">
+          <option value="">— Select Site —</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Request Date</label>
+        <input type="date" id="req-date"/>
+      </div>
+    </div>
+    <div class="grid-2" style="margin-top:16px">
+      <div class="field">
+        <label>Requested By</label>
+        <input type="text" id="req-by" placeholder="Your full name"/>
+      </div>
+      <div class="field">
+        <label>Contact / Phone</label>
+        <input type="text" id="req-phone" placeholder="+91 9XXXXXXXXX"/>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: MATERIAL ITEMS -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-num">2</div>
+      <div>
+        <div class="card-title">Material Items</div>
+        <div class="card-subtitle">Add one or more items to request</div>
+      </div>
+    </div>
+
+    <div class="items-header">
+      <span>Item Name</span>
+      <span>Qty Requested</span>
+      <span>Location Stock</span>
+      <span>Central Stock</span>
+      <span></span>
+    </div>
+    <div id="items-container"></div>
+
+    <div class="add-item-bar">
+      <button class="btn btn-outline btn-sm" onclick="addItemRow()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add Item
+      </button>
+      <div class="items-summary" id="items-summary" style="padding:0"></div>
+    </div>
+  </div>
+
+  <!-- SECTION 3: REMARKS -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-num">3</div>
+      <div>
+        <div class="card-title">Urgency & Remarks</div>
+        <div class="card-subtitle">Set priority and add additional notes</div>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="field">
+        <label>Priority Level</label>
+        <select id="priority">
+          <option value="normal">Normal</option>
+          <option value="urgent">Urgent</option>
+          <option value="critical">Critical — Immediate</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Required By Date</label>
+        <input type="date" id="req-by-date"/>
+      </div>
+    </div>
+    <div class="field" style="margin-top:14px">
+      <label>Remarks / Notes</label>
+      <textarea id="remarks" rows="3" style="background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius);padding:12px 14px;color:var(--text);font-size:14px;font-family:'DM Sans',sans-serif;resize:vertical;outline:none;transition:.2s;width:100%" placeholder="Any additional notes for the vendor or admin..."></textarea>
+    </div>
+  </div>
+
+  <!-- SECTION 4: DOCUMENTS -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-num">4</div>
+      <div>
+        <div class="card-title">Supporting Documents</div>
+        <div class="card-subtitle">Attach challan and other related files (max 10MB each)</div>
+      </div>
+    </div>
+    <div class="grid-2">
+      <!-- Challan Upload -->
+      <div>
+        <label style="display:block;margin-bottom:8px">Challan / Delivery Note <span class="req">*</span></label>
+        <div class="file-zone" id="challan-zone" ondragover="onDragOver(event,'challan-zone')" ondragleave="onDragLeave('challan-zone')" ondrop="onDrop(event,'challan','challan-zone')">
+          <input type="file" id="challan-file" accept=".pdf,.jpg,.jpeg,.png" onchange="onFileSelect(event,'challan')"/>
+          <div class="file-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <h4>Drop Challan Here</h4>
+          <p>PDF, JPG, PNG · Max 10MB</p>
+          <div class="file-preview" id="challan-preview"></div>
+        </div>
+      </div>
+      <!-- Other Documents Upload -->
+      <div>
+        <label style="display:block;margin-bottom:8px">Other Documents</label>
+        <div class="file-zone" id="docs-zone" ondragover="onDragOver(event,'docs-zone')" ondragleave="onDragLeave('docs-zone')" ondrop="onDrop(event,'docs','docs-zone')">
+          <input type="file" id="docs-file" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" multiple onchange="onFileSelect(event,'docs')"/>
+          <div class="file-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+          </div>
+          <h4>Drop Documents Here</h4>
+          <p>PDF, DOC, JPG, PNG · Multiple allowed</p>
+          <div class="file-preview" id="docs-preview"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUBMIT -->
+  <div class="submit-section">
+    <h3>Ready to Submit?</h3>
+    <p>Review all items and documents before submitting. An email notification will be sent to the location and vendor.</p>
+    <div class="submit-actions">
+      <button class="btn btn-outline" onclick="resetForm()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.73"/></svg>
+        Reset Form
+      </button>
+      <button class="btn-submit" id="submit-btn" onclick="submitForm()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        Submit Requisition
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<!-- SUCCESS SCREEN -->
+<div class="main success-screen" id="success-screen">
+  <div class="success-check">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+  </div>
+  <h2>Requisition Submitted!</h2>
+  <p>Your material request has been recorded successfully.<br/>Notification emails have been dispatched to the location manager and vendor.</p>
+  <div class="req-id-box" id="success-req-id">MRF-000000</div>
+  <p style="margin-top:8px;font-size:12px;color:var(--text3)">Please save this ID for reference and tracking.</p>
+  <div style="margin-top:32px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+    <button class="btn btn-amber" onclick="newRequest()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      New Request
+    </button>
+    <button class="btn btn-outline" onclick="window.print()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      Print / Save PDF
+    </button>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+//  CONFIGURATION — Replace with your deployed Apps Script URL
+// ═══════════════════════════════════════════════════════════
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzQyraAxFvgzslJEDDaR6dmz2NlD14c-w2wyIlGXi5SqWvH4gT3wRwfaMUtj2gSDkE3FA/exec';
+
+// ═══════════════════════════════════════════════════════════
+//  DEMO DATA (used when Sheet unreachable)
+// ═══════════════════════════════════════════════════════════
+const DEMO = {
+  contractors: [
+    { id:'C001', name:'Sharma Constructions Pvt Ltd', sites:['Sector 45 Residential','Phase 3 Commercial','NH-48 Bridge Project'] },
+    { id:'C002', name:'Rajput Infrastructure Ltd', sites:['Green Valley Township','Metro Station Block B'] },
+    { id:'C003', name:'Verma & Sons Builders', sites:['Sky Tower Gurgaon','Industrial Warehouse Manesar'] },
+    { id:'C004', name:'Kumar Civil Works', sites:['DLF Phase 5 Villas','Corporate Park Sector 62'] }
+  ],
+  items: [
+    { id:'ITM001', name:'Portland Cement (50kg bags)', unit:'Bags' },
+    { id:'ITM002', name:'TMT Steel Bars 12mm', unit:'MT' },
+    { id:'ITM003', name:'River Sand (Fine)', unit:'CuM' },
+    { id:'ITM004', name:'Crushed Aggregate 20mm', unit:'CuM' },
+    { id:'ITM005', name:'Fly Ash Bricks', unit:'Nos' },
+    { id:'ITM006', name:'Binding Wire', unit:'Kg' },
+    { id:'ITM007', name:'Plywood 18mm (8x4ft)', unit:'Sheets' },
+    { id:'ITM008', name:'Shuttering Plates', unit:'Nos' },
+    { id:'ITM009', name:'PVC Pipe 4 inch', unit:'Mtrs' },
+    { id:'ITM010', name:'MS Channels 100x50', unit:'Mtrs' }
+  ],
+  stock: {
+    'ITM001':{ location:320, central:1800 },
+    'ITM002':{ location:15.5, central:84.2 },
+    'ITM003':{ location:42, central:210 },
+    'ITM004':{ location:38, central:175 },
+    'ITM005':{ location:4200, central:18000 },
+    'ITM006':{ location:85, central:420 },
+    'ITM007':{ location:60, central:240 },
+    'ITM008':{ location:145, central:800 },
+    'ITM009':{ location:230, central:900 },
+    'ITM010':{ location:0, central:120 }
+  }
+};
+
+// ═══════════════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════════════
+let isDemoMode = false;
+let appData = { contractors:[], items:[], stock:{} };
+let itemRowCount = 0;
+let itemRows = [];
+let challanFiles = [];
+let docsFiles = [];
+let currentReqId = '';
+let isLightMode = false;
+
+// ═══════════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════════
+async function init() {
+  document.getElementById('req-date').value = new Date().toISOString().split('T')[0];
+  generateReqId();
+  await loadAppData();
+  addItemRow();
+}
+
+function generateReqId() {
+  const now = new Date();
+  const yy = String(now.getFullYear()).slice(2);
+  const mm = String(now.getMonth()+1).padStart(2,'0');
+  const dd = String(now.getDate()).padStart(2,'0');
+  const rand = String(Math.floor(Math.random()*9000)+1000);
+  currentReqId = `MRF-${yy}${mm}${dd}-${rand}`;
+  document.getElementById('req-id-badge').textContent = currentReqId;
+}
+
+async function loadAppData() {
+  showLoader('Loading master data...');
+  try {
+    const res = await Promise.race([
+      fetch(`${APPS_SCRIPT_URL}?action=getAll`, { method:'GET' }),
+      new Promise((_,r) => setTimeout(()=>r(new Error('timeout')), 5000))
+    ]);
+    const json = await res.json();
+    if(json.success) {
+      appData = json.data;
+      populateContractors();
+      showToast('success','Data Loaded','Connected to Google Sheets successfully');
+    } else throw new Error(json.message);
+  } catch(e) {
+    isDemoMode = true;
+    appData = { contractors: DEMO.contractors, items: DEMO.items, stock: DEMO.stock };
+    document.getElementById('demo-banner').style.display = 'flex';
+    populateContractors();
+    showToast('info','Demo Mode','Using sample data — update APPS_SCRIPT_URL to connect live');
+  }
+  hideLoader();
+}
+
+function populateContractors() {
+  const sel = document.getElementById('contractor');
+  sel.innerHTML = '<option value="">— Select Contractor —</option>';
+  appData.contractors.forEach(c => {
+    const o = document.createElement('option');
+    o.value = c.id || c.name;
+    o.textContent = c.name;
+    sel.appendChild(o);
+  });
+}
+
+function onContractorChange() {
+  const val = document.getElementById('contractor').value;
+  const siteSel = document.getElementById('site');
+  siteSel.innerHTML = '<option value="">— Select Site —</option>';
+  if(!val) return;
+  const contractor = appData.contractors.find(c => (c.id||c.name) === val);
+  if(contractor && contractor.sites) {
+    contractor.sites.forEach(s => {
+      const o = document.createElement('option');
+      o.value = s; o.textContent = s;
+      siteSel.appendChild(o);
+    });
+  }
+}
+
+function onSiteChange() { /* future: load site-specific stock */ }
+
+// ═══════════════════════════════════════════════════════════
+//  ITEM ROWS
+// ═══════════════════════════════════════════════════════════
+function addItemRow() {
+  const id = ++itemRowCount;
+  itemRows.push(id);
+  const container = document.getElementById('items-container');
+  const row = document.createElement('div');
+  row.className = 'item-row';
+  row.id = `row-${id}`;
+  row.innerHTML = `
+    <div class="field">
+      <select id="item-${id}" onchange="onItemChange(${id})" style="background:var(--bg2)">
+        <option value="">— Select Item —</option>
+        ${appData.items.map(i=>`<option value="${i.id||i.name}" data-unit="${i.unit||''}">${i.name}</option>`).join('')}
+      </select>
+      <div id="stock-row-${id}" class="stock-row" style="display:none">
+        <div class="stock-pill" id="loc-stock-${id}">
+          <div class="sp-label">Location Stock</div>
+          <div class="sp-val" id="loc-val-${id}">—</div>
+        </div>
+        <div class="stock-pill" id="cen-stock-${id}">
+          <div class="sp-label">Central Stock</div>
+          <div class="sp-val" id="cen-val-${id}">—</div>
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      <input type="number" id="qty-${id}" placeholder="0" min="0" step="0.01" oninput="onQtyChange(${id})" style="background:var(--bg2)"/>
+      <div id="unit-${id}" class="hint"></div>
+      <div id="qty-warn-${id}" style="display:none" class="stock-badge low" style="margin-top:6px">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L1 21h22L12 2zm0 3.5L20.5 19H3.5L12 5.5zM11 10v4h2v-4h-2zm0 6v2h2v-2h-2z"/></svg>
+        Insufficient Stock
+      </div>
+    </div>
+    <div id="loc-disp-${id}" style="padding-top:8px;font-size:13px;color:var(--text3)">—</div>
+    <div id="cen-disp-${id}" style="padding-top:8px;font-size:13px;color:var(--text3)">—</div>
+    <button class="del-btn" onclick="removeItemRow(${id})" title="Remove row">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+    </button>
+  `;
+  container.appendChild(row);
+  updateSummary();
+}
+
+function removeItemRow(id) {
+  const row = document.getElementById(`row-${id}`);
+  if(row) {
+    row.style.opacity = '0'; row.style.transform = 'translateX(-10px)';
+    setTimeout(()=>{ row.remove(); itemRows = itemRows.filter(r=>r!==id); updateSummary(); }, 200);
+  }
+  if(itemRows.length <= 1 && itemRows.length === 0) addItemRow();
+}
+
+async function onItemChange(id) {
+  const sel = document.getElementById(`item-${id}`);
+  const itemId = sel.value;
+  const unit = sel.selectedOptions[0]?.dataset.unit || '';
+  document.getElementById(`unit-${id}`).textContent = unit ? `Unit: ${unit}` : '';
+  document.getElementById(`loc-disp-${id}`).textContent = '—';
+  document.getElementById(`cen-disp-${id}`).textContent = '—';
+  if(!itemId) { document.getElementById(`stock-row-${id}`).style.display='none'; return; }
+  document.getElementById(`stock-row-${id}`).style.display='grid';
+  document.getElementById(`loc-val-${id}`).textContent = '...';
+  document.getElementById(`cen-val-${id}`).textContent = '...';
+  const stock = await getStock(itemId);
+  const locPill = document.getElementById(`loc-stock-${id}`);
+  const cenPill = document.getElementById(`cen-stock-${id}`);
+  document.getElementById(`loc-val-${id}`).textContent = `${stock.location} ${unit}`;
+  document.getElementById(`cen-val-${id}`).textContent = `${stock.central} ${unit}`;
+  document.getElementById(`loc-disp-${id}`).textContent = `${stock.location} ${unit}`;
+  document.getElementById(`cen-disp-${id}`).textContent = `${stock.central} ${unit}`;
+  locPill.className = `stock-pill ${stock.location > 0 ? 'good':'warn'}`;
+  cenPill.className = `stock-pill ${stock.central > 0 ? 'good':'warn'}`;
+  onQtyChange(id);
+  updateSummary();
+}
+
+async function getStock(itemId) {
+  if(isDemoMode) return DEMO.stock[itemId] || { location:0, central:0 };
+  try {
+    const res = await fetch(`${APPS_SCRIPT_URL}?action=getStock&itemId=${encodeURIComponent(itemId)}`);
+    const j = await res.json();
+    return j.success ? j.data : { location:0, central:0 };
+  } catch { return { location:0, central:0 }; }
+}
+
+function onQtyChange(id) {
+  const qty = parseFloat(document.getElementById(`qty-${id}`)?.value)||0;
+  const itemId = document.getElementById(`item-${id}`)?.value;
+  if(!itemId) return;
+  const stock = isDemoMode ? (DEMO.stock[itemId]||{location:0}) : {};
+  const locVal = parseFloat(document.getElementById(`loc-val-${id}`)?.textContent)||0;
+  const warn = document.getElementById(`qty-warn-${id}`);
+  if(warn) warn.style.display = (qty > 0 && qty > locVal) ? 'inline-flex' : 'none';
+  updateSummary();
+}
+
+function updateSummary() {
+  const active = itemRows.filter(id => document.getElementById(`item-${id}`)?.value);
+  const total = itemRows.reduce((s,id)=>s+(parseFloat(document.getElementById(`qty-${id}`)?.value)||0),0);
+  const summaryEl = document.getElementById('items-summary');
+  summaryEl.innerHTML = active.length > 0
+    ? `<div class="summary-chip">Items:<span>${active.length}</span></div><div class="summary-chip">Total Qty:<span>${total.toFixed(1)}</span></div>`
+    : '';
+}
+
+// ═══════════════════════════════════════════════════════════
+//  FILE HANDLING
+// ═══════════════════════════════════════════════════════════
+function onFileSelect(e, type) {
+  const files = Array.from(e.target.files);
+  files.forEach(f => addFile(f, type));
+}
+function onDragOver(e,zoneId) { e.preventDefault(); document.getElementById(zoneId).classList.add('drag'); }
+function onDragLeave(zoneId) { document.getElementById(zoneId).classList.remove('drag'); }
+function onDrop(e,type,zoneId) {
+  e.preventDefault();
+  document.getElementById(zoneId).classList.remove('drag');
+  Array.from(e.dataTransfer.files).forEach(f => addFile(f, type));
+}
+
+function addFile(file, type) {
+  if(file.size > 10*1024*1024) { showToast('error','File Too Large',`${file.name} exceeds 10MB limit`); return; }
+  const arr = type==='challan' ? challanFiles : docsFiles;
+  if(type==='challan' && arr.length >= 1) { showToast('warning','One File Only','Replace existing challan by removing it first'); return; }
+  arr.push(file);
+  renderFilePreviews(type);
+  showToast('success','File Added',`${file.name} attached`);
+}
+
+function renderFilePreviews(type) {
+  const arr = type==='challan' ? challanFiles : docsFiles;
+  const preview = document.getElementById(`${type==='challan'?'challan':'docs'}-preview`);
+  preview.innerHTML = arr.map((f,i)=>`
+    <div class="file-chip">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+      ${f.name.length>20?f.name.slice(0,18)+'…':f.name}
+      <span class="rm" onclick="removeFile('${type}',${i})">✕</span>
+    </div>`).join('');
+}
+
+function removeFile(type, index) {
+  (type==='challan' ? challanFiles : docsFiles).splice(index, 1);
+  renderFilePreviews(type);
+}
+
+// ═══════════════════════════════════════════════════════════
+//  FORM SUBMIT
+// ═══════════════════════════════════════════════════════════
+async function submitForm() {
+  // Validation
+  const contractor = document.getElementById('contractor').value;
+  const site = document.getElementById('site').value;
+  const reqBy = document.getElementById('req-by').value.trim();
+  if(!contractor) { showToast('error','Missing Field','Please select a contractor'); return; }
+  if(!site) { showToast('error','Missing Field','Please select a site'); return; }
+  if(!reqBy) { showToast('error','Missing Field','Please enter your name in "Requested By"'); return; }
+
+  const items = [];
+  for(const id of itemRows) {
+    const itemId = document.getElementById(`item-${id}`)?.value;
+    const qty = parseFloat(document.getElementById(`qty-${id}`)?.value)||0;
+    if(itemId && qty>0) {
+      const itemName = document.getElementById(`item-${id}`)?.selectedOptions[0]?.textContent;
+      const unit = document.getElementById(`unit-${id}`)?.textContent.replace('Unit: ','');
+      const locStock = parseFloat(document.getElementById(`loc-val-${id}`)?.textContent)||0;
+      const cenStock = parseFloat(document.getElementById(`cen-val-${id}`)?.textContent)||0;
+      items.push({ itemId, itemName, qty, unit, locStock, cenStock });
+    }
+  }
+  if(items.length === 0) { showToast('error','No Items','Add at least one item with a valid quantity'); return; }
+
+  // Build payload
+  const payload = {
+    reqId: currentReqId,
+    contractor,
+    site,
+    reqBy,
+    phone: document.getElementById('req-phone').value,
+    date: document.getElementById('req-date').value,
+    priority: document.getElementById('priority').value,
+    reqByDate: document.getElementById('req-by-date').value,
+    remarks: document.getElementById('remarks').value,
+    items,
+    hasChallan: challanFiles.length > 0,
+    hasDocs: docsFiles.length > 0
+  };
+
+  showLoader('Submitting requisition...');
+  document.getElementById('submit-btn').disabled = true;
+
+  try {
+    if(isDemoMode) {
+      await new Promise(r=>setTimeout(r,2000));
+      showSuccess();
+    } else {
+      // Build FormData for file upload
+      const fd = new FormData();
+      fd.append('data', JSON.stringify(payload));
+      if(challanFiles[0]) fd.append('challan', challanFiles[0]);
+      docsFiles.forEach((f,i) => fd.append(`doc_${i}`, f));
+      const res = await fetch(APPS_SCRIPT_URL, { method:'POST', body: fd });
+      const j = await res.json();
+      if(j.success) { showSuccess(); }
+      else throw new Error(j.message||'Submission failed');
+    }
+  } catch(e) {
+    showToast('error','Submission Failed', e.message || 'Check your connection and try again');
+    document.getElementById('submit-btn').disabled = false;
+  }
+  hideLoader();
+}
+
+function showSuccess() {
+  document.getElementById('form-wrapper').style.display = 'none';
+  const ss = document.getElementById('success-screen');
+  ss.classList.add('show');
+  document.getElementById('success-req-id').textContent = currentReqId;
+  showToast('success','Submitted!',`${currentReqId} — Notification emails dispatched`);
+}
+
+function newRequest() {
+  document.getElementById('success-screen').classList.remove('show');
+  document.getElementById('form-wrapper').style.display = 'block';
+  resetForm();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function resetForm() {
+  document.getElementById('contractor').value = '';
+  document.getElementById('site').innerHTML = '<option value="">— Select Site —</option>';
+  document.getElementById('req-by').value = '';
+  document.getElementById('req-phone').value = '';
+  document.getElementById('remarks').value = '';
+  document.getElementById('priority').value = 'normal';
+  document.getElementById('req-by-date').value = '';
+  document.getElementById('items-container').innerHTML = '';
+  itemRows = []; itemRowCount = 0;
+  challanFiles = []; docsFiles = [];
+  renderFilePreviews('challan'); renderFilePreviews('docs');
+  document.getElementById('submit-btn').disabled = false;
+  generateReqId();
+  addItemRow();
+  showToast('info','Reset','Form has been cleared');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ═══════════════════════════════════════════════════════════
+//  UI HELPERS
+// ═══════════════════════════════════════════════════════════
+function showLoader(msg='Please wait...') {
+  document.getElementById('loader-msg').textContent = msg;
+  document.getElementById('loader').classList.add('show');
+}
+function hideLoader() { document.getElementById('loader').classList.remove('show'); }
+
+const toastIcons = {
+  success:`<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>`,
+  error:`<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>`,
+  warning:`<svg class="toast-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L1 21h22L12 2zm0 3.5L20.5 19H3.5L12 5.5zM11 10v4h2v-4h-2zm0 6v2h2v-2h-2z"/></svg>`,
+  info:`<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`
+};
+
+function showToast(type, title, message, duration=4000) {
+  const container = document.getElementById('toasts');
+  const t = document.createElement('div');
+  t.className = `toast ${type}`;
+  t.innerHTML = `${toastIcons[type]}<div class="toast-text"><div class="tt">${title}</div>${message?`<div class="tm">${message}</div>`:''}</div>`;
+  container.appendChild(t);
+  setTimeout(()=>{ t.classList.add('out'); setTimeout(()=>t.remove(),300); }, duration);
+}
+
+document.getElementById('theme-toggle').addEventListener('click',()=>{
+  isLightMode = !isLightMode;
+  document.body.classList.toggle('light-mode', isLightMode);
+  const icon = document.getElementById('theme-icon');
+  icon.innerHTML = isLightMode
+    ? `<path d="M12 3v1m0 16v1M4.22 4.22l.7.7m12.02 12.02.7.7M1 12h2m18 0h2M4.22 19.78l.7-.7M18.94 5.06l.7-.7M15.535 8.465a5 5 0 1 1-7.07 7.07 5 5 0 0 1 7.07-7.07z" stroke="currentColor" fill="none" stroke-width="2"/>`
+    : `<path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>`;
+});
+
+init();
+</script>
+</body>
+</html>
